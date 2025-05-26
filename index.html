@@ -1,430 +1,118 @@
 <!DOCTYPE html>
-<html lang="zxx">
-    <head>
-        <!-- Metas -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="Inazuma Community - Information Technology"/>
-        <meta name="keywords" content="Inazuma Community - Information Technology"/>
-        <meta name="description" content="Inazuma Community - Information Technology"/>
-        <meta name="author" content=""/>
-        <!-- Title  -->
-        <title>Inazuma Community</title>
-        <!-- Favicon -->
-        <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,500,600,700,800,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-        <!-- Plugins -->
-        <link rel="stylesheet" href="/css/plugins.css"/>
-        <!-- Core Style Css -->
-        <link rel="stylesheet" href="/css/style.css"/>
-    </head>
-    <body>
-        <!-- ==================== Start Loading ==================== -->
-        <div id="preloader"></div>
-        <!-- ==================== End Loading ==================== -->
-        <!-- ==================== Start progress-scroll-button ==================== -->
-        <div class="progress-wrap cursor-pointer">
-            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-                <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
-            </svg>
-        </div>
-        <!-- ==================== End progress-scroll-button ==================== -->
-        <!-- ==================== Start cursor ==================== -->
-        <div class="mouse-cursor cursor-outer"></div>
-        <div class="mouse-cursor cursor-inner"></div>
-        <!-- ==================== End cursor ==================== -->
-        <!-- ==================== Start Navbar ==================== -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <!-- Logo -->
-                <a class="logo" href="#">
-                    <img src="/img/logo-light.png" alt="logo" style="width: 230px; height: auto;">
-                </a>
-            </div>
-        </nav>
-        <!-- ==================== End Navbar ==================== -->
-        <!-- ==================== Start Slider ==================== -->
-        <header class="slider slider-prlx fixed-slider text-center">
-            <div class="swiper-container parallax-slider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="bg-img valign" data-background="/img/slid/01.jpg" data-overlay-dark="6">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-7 col-md-9">
-                                        <div class="caption center">
-                                            <h1 data-splitting>
-                                                Inazuma Community
-                                            </h1>
-                                            <p> Server Name: Inazuma Community
-<br><b>Founded: 2017</b>
-<br><b>Owner: Taksos</b>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Discord Admin Servers</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+  button { padding: 10px 20px; font-size: 16px; }
+  ul { list-style: none; padding: 0; }
+  li { margin-bottom: 10px; }
+  a.invite { color: blue; text-decoration: underline; cursor: pointer; }
+</style>
+</head>
+<body>
 
-<br><b>Welcome to Inazuma Community! 🎮</b>
+<h1>Discord Admin Server Manager</h1>
 
-<br><b>Our server is a hub for gamers and enthusiasts looking to connect, participate in giveaways, enjoy events, and meet new people. Despite our name, we're not exclusively for Inazuma Eleven fans – we're here to bring together a diverse community of gamers.</b>
+<div id="loginSection">
+  <button id="loginBtn">Sign in with Discord</button>
+</div>
 
-<br><b>🎁 Join our giveaways for a chance to win exciting prizes.</b>
-<br><b>🎉 Take part in fun events and challenges.</b>
-<br><b>👥 Connect with like-minded individuals and make new friends.</b>
-<br><b>🤝 Explore partnership opportunities with our community.</b>
+<div id="guildsSection" style="display:none;">
+  <h2>Your Admin Servers</h2>
+  <ul id="guildList"></ul>
+  <button id="logoutBtn">Logout</button>
+</div>
 
-<br><b>Inazuma Community has been around since 2017, and we're constantly evolving to provide a welcoming and enjoyable environment for all. Join us today and be part of our growing community! 🕹️</b>
+<script>
+  const clientId = '1279272540073889856';
+  const redirectUri = window.location.origin + window.location.pathname; // current page without query
+  const scope = 'identify guilds';
 
-</p>
-                                            <a href="https://discord.gg/Gdz76HXJ2M" target="_blank" class="btn-curve btn-lit mt-30">
-                                                <span>Join server.</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="bg-img valign" data-background="/img/slid/03.jpg" data-overlay-dark="6">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-7 col-md-9">
-                                        <div class="caption center">
-                                            <h1 data-splitting>
-                                                Innovative Digital Designs
-                                            </h1>
-                                            <p> We create unique digital experiences that help businesses thrive.
-                                                From stunning visuals to intuitive user experience,
-                                                our designs have won multiple awards and recognition.</p>
-                                            <a href="#0" class="btn-curve btn-lit mt-30">
-                                                <span>Look More</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="bg-img valign" data-background="/img/slid/02.jpg" data-overlay-dark="6">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-7 col-md-9">
-                                        <div class="caption center">
-                                            <h1 data-splitting>Customized IT Solutions</h1>
-                                            <p> If you're looking for personalized solutions for your IT needs, we've got you covered.
-                                                Our team is ready to collaborate with you to create custom strategies and designs that meet your specific requirements.</p>
-                                            <a href="#0" class="btn-curve btn-lit mt-30">
-                                                <span>Look More</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- slider setting -->
-                <div class="setone setwo">
-                    <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                </div>
-                <div class="swiper-pagination top botm custom-font"></div>
-                <div class="social-icon">
-                    <a href="#0">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#0">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </div>
-            </div>
-        </header>
-        <!-- ==================== End Slider ==================== -->
-        <div class="main-content">
-            <!-- ==================== Start about ==================== -->
-            <div class="about section-padding">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <div class="img-mons">
-                                <div class="row">
-                                    <div class="col-md-5 cmd-padding valign">
-                                        <div class="img1 wow imago" data-wow-delay=".5s">
-                                            <img src="/img/intro/1.jpg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-7 cmd-padding">
-                                        <div class="img2 wow imago" data-wow-delay=".3s">
-                                            <img src="/img/intro/3.jpg" alt="">
-                                        </div>
-                                        <div class="img3 wow imago" data-wow-delay=".8s">
-                                            <img src="/img/intro/2.jpg" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 offset-lg-1 valign">
-                            <div class="content">
-                                <div class="sub-title">
-                                    <h6>About Us</h6>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                                <h3 class="main-title wow" data-splitting>
-                                    We are an innovative <br>IT agency.
-                                </h3>
-                                <p class="wow txt" data-splitting>We create outstanding digital solutions for businesses.
-                                     Whether you need a website, a brand identity, or a cutting-edge app,
-                                      we have the expertise to bring your ideas to life.</p>
-                                <div class="ftbox mt-30">
-                                    <ul>
-                                        <li class="wow fadeIn" data-wow-delay=".3s">
-                                            <span class="icon pe-7s-gleam"></span>
-                                            <h6 class="custom-font">
-                                                Pixel <br>Perfect
-                                            </h6>
-                                            <div class="dots">
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                            </div>
-                                        </li>
-                                        <li class="space wow fadeIn" data-wow-delay=".5s">
-                                            <span class="icon pe-7s-paint-bucket"></span>
-                                            <h6 class="custom-font">
-                                                Creative <br>Design
-                                            </h6>
-                                            <div class="dots">
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                            </div>
-                                        </li>
-                                        <li class="wow fadeIn" data-wow-delay=".8s">
-                                            <span class="icon pe-7s-medal"></span>
-                                            <h6 class="custom-font">
-                                                Heigh <br>Perfomance
-                                            </h6>
-                                            <div class="dots">
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ==================== End about ==================== -->
-            <!-- ==================== Start Services ==================== -->
-            <section class="services">
-                <div class="container">
-                    <div class="sec-head custom-font text-center">
-                        <h6 class="wow fadeIn" data-wow-delay=".5s">Best Features</h6>
-                        <h3 class="wow" data-splitting>Services.</h3>
-                        <span class="tbg">Services</span>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 item-box bg-img wow fadeInLeft" data-wow-delay=".3s" data-background="/img/1.jpg">
-                            <h4 class="custom-font">
-                                Best Of <br>Our Features
-                            </h4>
-                            <a href="#" class="btn-curve btn-bord btn-lit mt-40">
-                                <span>See All Services</span>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-md-6 item-box wow fadeInLeft" data-wow-delay=".5s">
-                            <span class="icon pe-7s-paint-bucket"></span>
-                            <h6>Graphic Design</h6>
-                            <p>Tempore corrupti temporibus fuga earum asperiores fugit laudantium.</p>
-                        </div>
-                        <div class="col-lg-3 col-md-6 item-box wow fadeInLeft" data-wow-delay=".7s">
-                            <span class="icon pe-7s-phone"></span>
-                            <h6>
-                                Web &<br>Mobile Design
-                            </h6>
-                            <p>Tempore corrupti temporibus fuga earum asperiores fugit.</p>
-                        </div>
-                        <div class="col-lg-3 col-md-6 item-box wow fadeInLeft" data-wow-delay=".9s">
-                            <span class="icon pe-7s-display1"></span>
-                            <h6>
-                                Social <br>media Marketing
-                            </h6>
-                            <p>Tempore corrupti temporibus fuga earum asperiores fugit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="half-bg bottom"></div>
-            </section>
-            <!-- ==================== End Services ==================== -->
-            <!-- ==================== Start numbers ==================== -->
-            <section class="number-sec section-padding sub-bg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="item no-bord">
-                                <span class="icon pe-7s-smile"></span>
-                                <h3 class="custom-font">
-                                    <span class="count">2400</span>
-                                </h3>
-                                <p class="wow txt" data-splitting>Happy Clients</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="item">
-                                <span class="icon pe-7s-portfolio"></span>
-                                <h3 class="custom-font">
-                                    <span class="count">133</span>
-                                </h3>
-                                <p class="wow txt" data-splitting>Compleate Projects</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="item">
-                                <span class="icon pe-7s-cloud-download"></span>
-                                <h3 class="custom-font">
-                                    <span class="count">254</span>
-                                    k
-                                </h3>
-                                <p class="wow txt" data-splitting>Files Downloaded</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="item">
-                                <span class="icon pe-7s-medal"></span>
-                                <h3 class="custom-font">
-                                    <span class="count">46</span>
-                                </h3>
-                                <p class="wow txt" data-splitting>Award Win</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- ==================== End numbers ==================== -->
-            <!-- ==================== Start call-to-action ==================== -->
-            <section class="call-action section-padding sub-bg bg-img" data-background="/img/pattern.png">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-lg-9">
-                            <div class="content sm-mb30">
-                                <h6 class="wow" data-splitting>Let’s Talk</h6>
-                                <h2 class="wow custom-font" data-splitting>
-                                    about your <b>next project</b>
-                                    .
-                                </h2>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-lg-3 valign">
-                            <a href="./contact/contact.html" class="btn-curve btn-lit wow fadeInUp" data-wow-delay=".5s">
-                                <span>Get In
-                                Touch</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- ==================== End call-to-action ==================== -->
-            <!-- ==================== Start Footer ==================== -->
-            <footer class="footer-half sub-bg section-padding pb-0">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <div class="cont">
-                                <div class="logo">
-                                    <a href="#0">
-                                        <img src="/img/logo-lighto.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="con-info custom-font">
-                                    <ul>
-                                        <li>
-                                            <span>Email : </span>
-                                            info@Inazuma Community.com
-                                        </li>
-                                        <li>
-                                            <span>Address : </span>
-                                            Dubai, deira city centre, port said ST, bin Hareb building, floor 4th, office FF16
-                                    
-                                        </li>
-                                        <li>
-                                            <span>P.O Box : </span>
-                                            85788
-                                        </li>
-                                        <li>
-                                            <span>Phone : </span>
-                                            048868224
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="social-icon">
-                                    <h6 class="custom-font stit simple-btn">Follow Us</h6>
-                                    <div class="social">
-                                        <a href="#0" class="icon">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                        <a href="#0" class="icon">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 offset-lg-2">
-                            <div class="subscribe mb-50">
-                                <h6 class="custom-font stit simple-btn">Newslatter</h6>
-                                <p>Sign up for subscribe out newsletter!</p>
-                                <form name="Newsletter" data-netlify="true">
-                                    <div class="form-group custom-font">
-                                        <input type="email" name="subscribe" placeholder="Your Email">
-                                        <button class="cursor-pointer">Subscribe</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="insta">
-                                <h6 class="custom-font stit simple-btn">Instagram Post</h6>
-                                <div class="insta-gallary">
-                                    <a href="#0">
-                                        <img src="/img/insta/1.jpg" alt="">
-                                    </a>
-                                    <a href="#0">
-                                        <img src="/img/insta/2.jpg" alt="">
-                                    </a>
-                                    <a href="#0">
-                                        <img src="/img/insta/3.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="copyrights text-center">
-                        <p>
-                            © 2021, Inazuma Community . Made with &#10084; and passion by <a href="https://www.yfawzy.com">Y.fawzi</a>
-                            .
-                        </p>
-                    </div>
-                </div>
-            </footer>
-            <!-- ==================== End Footer ==================== -->
-        </div>
-        <!-- jQuery -->
-        <script src="js/jquery-3.0.0.min.js"></script>
-        <script src="js/jquery-migrate-3.0.0.min.js"></script>
-        <!-- plugins -->
-        <script src="js/plugins.js"></script>
-        <!-- custom scripts -->
-        <script src="js/scripts.js"></script>
-    </body>
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const loginSection = document.getElementById('loginSection');
+  const guildsSection = document.getElementById('guildsSection');
+  const guildList = document.getElementById('guildList');
+
+  function getAccessTokenFromHash() {
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    return params.get('access_token');
+  }
+
+  async function fetchUserGuilds(token) {
+    const res = await fetch('https://discord.com/api/users/@me/guilds', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    if (!res.ok) {
+      throw new Error('Failed to fetch guilds');
+    }
+    return res.json();
+  }
+
+  function hasAdminPermissions(permissions) {
+    // Discord permissions bitwise check for Administrator (0x8)
+    return (BigInt(permissions) & 0x8n) === 0x8n;
+  }
+
+  function createInviteUrl(guildId) {
+    const permissions = 8; // Administrator permission for bot
+    return `https://discord.com/oauth2/authorize?client_id=${clientId}&scope=bot&permissions=${permissions}&guild_id=${guildId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
+  }
+
+  async function init() {
+    const token = getAccessTokenFromHash();
+
+    if (token) {
+      // Clear the hash from URL so token isn't visible
+      history.replaceState(null, '', window.location.pathname);
+
+      try {
+        const guilds = await fetchUserGuilds(token);
+        const adminGuilds = guilds.filter(g => hasAdminPermissions(g.permissions));
+        if (adminGuilds.length === 0) {
+          guildList.innerHTML = '<li>No servers with Administrator permission found.</li>';
+        } else {
+          guildList.innerHTML = '';
+          adminGuilds.forEach(guild => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+              <strong>${guild.name}</strong> (Members: unknown)<br/>
+              <a href="${createInviteUrl(guild.id)}" target="_blank" class="invite">Invite Bot to this Server</a>
+            `;
+            guildList.appendChild(li);
+          });
+        }
+
+        loginSection.style.display = 'none';
+        guildsSection.style.display = 'block';
+      } catch (err) {
+        alert('Error fetching guilds or invalid token. Please login again.');
+        loginSection.style.display = 'block';
+        guildsSection.style.display = 'none';
+      }
+    } else {
+      // Not logged in yet
+      loginSection.style.display = 'block';
+      guildsSection.style.display = 'none';
+    }
+  }
+
+  loginBtn.addEventListener('click', () => {
+    const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${encodeURIComponent(scope)}`;
+    window.location.href = authUrl;
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    // Just reload the page without access token to "logout"
+    window.location.href = window.location.pathname;
+  });
+
+  init();
+</script>
+
+</body>
 </html>
