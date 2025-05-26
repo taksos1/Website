@@ -3,7 +3,7 @@ const express = require('express');
 
 const app = express();
 
-const BOT_TOKEN = "MTI3OTI3MjU0MDA3Mzg4OTg1Ng.GSoDdQ.YGA_RKEqfnTzpkL7NZxPkHmhYUZ46eupIniXF8";  // Replace with your bot token
+const BOT_TOKEN = "MTI3OTI3MjU0MDA3Mzg4OTg1Ng.GroVjX.Ljrq-vGqRKWjzAtdpFd3GRIwLcz_Wec30y1paA";  // Replace with your bot token
 
 // Create Discord client
 const client = new Client({
