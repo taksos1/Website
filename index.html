@@ -181,147 +181,206 @@
   </div>
 
   <script>
-    // Config - CHANGE THESE to your app's values
-    const clientId = "1279272540073889856"; // your Discord Application client ID
-    const redirectUri = window.location.origin + window.location.pathname; // current page url
-    const scopes = ["identify", "guilds"]; // scopes we need (guilds for server list)
-    const botClientId = "1279272540073889856"; // same bot client id for invite link
+  // Config - CHANGE THESE to your app's values
+  const clientId = "1279272540073889856"; // your Discord Application client ID
+  const redirectUri = window.location.origin + window.location.pathname; // current page url
+  const scopes = ["identify", "guilds"]; // scopes we need (guilds for server list)
+  const botClientId = "1279272540073889856"; // same bot client id for invite/manage links
 
-    // Elements
-    const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const loginSection = document.getElementById("loginSection");
-    const userInfo = document.getElementById("userInfo");
-    const welcomeMsg = document.getElementById("welcomeMsg");
-    const serverList = document.getElementById("serverList");
-    const userAvatar = document.getElementById("userAvatar");
-    const usernameDisplay = document.getElementById("usernameDisplay");
+  // Elements
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginSection = document.getElementById("loginSection");
+  const userInfo = document.getElementById("userInfo");
+  const serverList = document.getElementById("serverList");
+  const userAvatar = document.getElementById("userAvatar");
+  const usernameDisplay = document.getElementById("usernameDisplay");
 
-    // Helper to parse URL hash
-    function parseHashParams(hash) {
-      const params = {};
-      hash.substring(1).split("&").forEach(part => {
-        const [key, value] = part.split("=");
-        params[key] = decodeURIComponent(value);
-      });
-      return params;
+  let botUserId = null;
+
+  // Helper to parse URL hash
+  function parseHashParams(hash) {
+    const params = {};
+    hash.substring(1).split("&").forEach(part => {
+      const [key, value] = part.split("=");
+      params[key] = decodeURIComponent(value);
+    });
+    return params;
+  }
+
+  // OAuth2 login url with Implicit Grant (response_type=token)
+  function getOAuth2Url() {
+    return `https://discord.com/api/oauth2/authorize?client_id=${clientId}` +
+           `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+           `&response_type=token` +
+           `&scope=${encodeURIComponent(scopes.join(" "))}` +
+           `&prompt=consent`;
+  }
+
+  // Logout function
+  function logout() {
+    localStorage.removeItem("discord_token");
+    localStorage.removeItem("discord_user");
+    location.href = redirectUri;
+  }
+
+  // Fetch bot user info from Discord API (using bot token - here we use user token to get bot info via bot client ID)
+  // Since we don't have bot token here in client, we do this trick: fetch from /users/@me for the user, but for bot user id - we just use botClientId (assumes you know it)
+  // Alternative: you can hardcode your bot's user ID here, or fetch via backend.
+  // For simplicity, let's hardcode botUserId as clientId here (replace if different)
+  botUserId = botClientId; // you can replace this with actual bot user ID if different
+
+  // Render servers where user has Administrator perms
+  function renderServers(guilds) {
+    serverList.innerHTML = "";
+
+    // Filter servers where user has ADMINISTRATOR perm
+    const adminGuilds = guilds.filter(g => (parseInt(g.permissions) & 0x8) === 0x8);
+
+    if (adminGuilds.length === 0) {
+      serverList.innerHTML = "<p>You don't have Administrator permission in any server.</p>";
+      return;
     }
 
-    // OAuth2 login url with Implicit Grant (response_type=token)
-    function getOAuth2Url() {
-      return `https://discord.com/api/oauth2/authorize?client_id=${clientId}` +
-             `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-             `&response_type=token` +
-             `&scope=${encodeURIComponent(scopes.join(" "))}` +
-             `&prompt=consent`;
-    }
+    // Sort so servers with bot come first
+    const withBot = [];
+    const withoutBot = [];
 
-    // Logout function
-    function logout() {
-      localStorage.removeItem("discord_token");
-      localStorage.removeItem("discord_user");
-      location.href = redirectUri;
-    }
+    adminGuilds.forEach(guild => {
+      // Check if bot is in guild:
+      // Discord user guilds object includes a "owner" boolean, but doesn't say if bot is in guild.
+      // Since OAuth2 /users/@me/guilds doesn't include bot membership info,
+      // We need to guess from guild features or the "permissions" field or maintain a backend.
+      // For simplicity, let's assume the bot is in the server if you see the guild in user's guild list AND the bot is in the guild's features array (unlikely)
+      // Since we can't get bot membership from this API, instead use the "permissions" field.
 
-    // Render servers where user has Administrator perms
-    function renderServers(guilds) {
-      serverList.innerHTML = "";
-      const adminGuilds = guilds.filter(g => (parseInt(g.permissions) & 0x8) === 0x8); // ADMINISTRATOR bit
-      if (adminGuilds.length === 0) {
-        serverList.innerHTML = "<p>You don't have Administrator permission in any server.</p>";
-        return;
-      }
-      adminGuilds.forEach(guild => {
-        const div = document.createElement("div");
-        div.className = "server";
+      // Alternatively, if you want an accurate way, backend is needed to fetch bot guilds and compare.
 
-        const iconUrl = guild.icon ?
-          `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` :
-          "https://via.placeholder.com/48?text=No+Icon";
+      // For demo, I'll simulate: Assume if user has admin permission, and guild id mod 2 == 0 bot is in. (Just to demo pushing some servers up.)
+      // You should replace this with real bot membership check.
 
-        div.innerHTML = `
-          <img src="${iconUrl}" alt="Server Icon" />
-          <div>
-            <strong>${guild.name}</strong><br/>
-            ID: ${guild.id}
-          </div>
-          <button class="invite-btn" data-guild-id="${guild.id}">Invite Bot</button>
-        `;
+      const botInGuild = false; // Change to real check if you have backend
+      // For demo, let's say guild IDs ending with even digit have bot:
+      botInGuild = parseInt(guild.id[guild.id.length - 1]) % 2 === 0;
 
-        // Invite button opens invite URL in new tab
-        const inviteBtn = div.querySelector(".invite-btn");
-        inviteBtn.addEventListener("click", () => {
-          const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${botClientId}&permissions=8&scope=bot&guild_id=${guild.id}&disable_guild_select=true`;
-          window.open(inviteUrl, "_blank");
-        });
-
-        serverList.appendChild(div);
-      });
-    }
-
-    // Fetch user info from Discord API
-    async function fetchUser(token) {
-      const res = await fetch("https://discord.com/api/users/@me", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error("Failed to fetch user info");
-      return res.json();
-    }
-
-    // Fetch guilds the user is in
-    async function fetchGuilds(token) {
-      const res = await fetch("https://discord.com/api/users/@me/guilds", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error("Failed to fetch guilds");
-      return res.json();
-    }
-
-    // Initialize UI with token (from hash or localStorage)
-    async function initWithToken(token) {
-      try {
-        loginSection.style.display = "none";
-        userInfo.style.display = "block";
-
-        // Get user info
-        const user = await fetchUser(token);
-        localStorage.setItem("discord_user", JSON.stringify(user));
-        userAvatar.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
-        usernameDisplay.textContent = `${user.username}#${user.discriminator}`;
-
-        // Get guilds
-        const guilds = await fetchGuilds(token);
-        renderServers(guilds);
-
-        // Save token
-        localStorage.setItem("discord_token", token);
-      } catch (err) {
-        alert("Login failed or token expired. Please login again.");
-        logout();
-      }
-    }
-
-    // Check if we have token in URL hash (Implicit Grant flow)
-    const hashParams = parseHashParams(window.location.hash);
-    if (hashParams.access_token) {
-      const token = hashParams.access_token;
-      // Clear hash to clean URL
-      history.replaceState(null, null, " ");
-      initWithToken(token);
-    } else {
-      // Check localStorage
-      const storedToken = localStorage.getItem("discord_token");
-      if (storedToken) {
-        initWithToken(storedToken);
-      }
-    }
-
-    loginBtn.addEventListener("click", () => {
-      window.location.href = getOAuth2Url();
+      if (botInGuild) withBot.push(guild);
+      else withoutBot.push(guild);
     });
 
-    logoutBtn.addEventListener("click", logout);
+    // Sort servers alphabetically inside groups
+    withBot.sort((a, b) => a.name.localeCompare(b.name));
+    withoutBot.sort((a, b) => a.name.localeCompare(b.name));
 
-  </script>
+    // Show servers with bot first
+    withBot.forEach(guild => {
+      serverList.appendChild(createGuildElement(guild, true));
+    });
+    withoutBot.forEach(guild => {
+      serverList.appendChild(createGuildElement(guild, false));
+    });
+  }
+
+  // Create guild DOM element with invite or manage button
+  function createGuildElement(guild, botInGuild) {
+    const div = document.createElement("div");
+    div.className = "server";
+
+    const iconUrl = guild.icon ?
+      `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` :
+      "https://via.placeholder.com/48?text=No+Icon";
+
+    div.innerHTML = `
+      <img src="${iconUrl}" alt="Server Icon" />
+      <div>
+        <strong>${guild.name}</strong><br/>
+        ID: ${guild.id}
+      </div>
+      <button class="invite-btn">${botInGuild ? "Manage" : "Invite Bot"}</button>
+    `;
+
+    const btn = div.querySelector("button");
+    if (botInGuild) {
+      // Manage button opens server channel list where you manage roles and bots
+      btn.addEventListener("click", () => {
+        window.open(`https://discord.com/channels/${guild.id}`, "_blank");
+      });
+      btn.style.backgroundColor = "#faa61a";
+      btn.style.boxShadow = "0 2px 12px rgba(250, 166, 26, 0.7)";
+      btn.addEventListener("mouseenter", () => btn.style.backgroundColor = "#d68e00");
+      btn.addEventListener("mouseleave", () => btn.style.backgroundColor = "#faa61a");
+    } else {
+      btn.addEventListener("click", () => {
+        const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${botClientId}&permissions=8&scope=bot&guild_id=${guild.id}&disable_guild_select=true`;
+        window.open(inviteUrl, "_blank");
+      });
+    }
+
+    return div;
+  }
+
+  // Fetch user info from Discord API
+  async function fetchUser(token) {
+    const res = await fetch("https://discord.com/api/users/@me", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error("Failed to fetch user info");
+    return res.json();
+  }
+
+  // Fetch guilds the user is in
+  async function fetchGuilds(token) {
+    const res = await fetch("https://discord.com/api/users/@me/guilds", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error("Failed to fetch guilds");
+    return res.json();
+  }
+
+  // Initialize UI with token (from hash or localStorage)
+  async function initWithToken(token) {
+    try {
+      loginSection.style.display = "none";
+      userInfo.style.display = "block";
+
+      // Get user info
+      const user = await fetchUser(token);
+      localStorage.setItem("discord_user", JSON.stringify(user));
+      userAvatar.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
+      usernameDisplay.textContent = `${user.username}#${user.discriminator}`;
+
+      // Get guilds
+      const guilds = await fetchGuilds(token);
+      renderServers(guilds);
+
+      // Save token
+      localStorage.setItem("discord_token", token);
+    } catch (err) {
+      alert("Login failed or token expired. Please login again.");
+      logout();
+    }
+  }
+
+  // Check if we have token in URL hash (Implicit Grant flow)
+  const hashParams = parseHashParams(window.location.hash);
+  if (hashParams.access_token) {
+    const token = hashParams.access_token;
+    // Clear hash to clean URL
+    history.replaceState(null, null, " ");
+    initWithToken(token);
+  } else {
+    // Check localStorage
+    const storedToken = localStorage.getItem("discord_token");
+    if (storedToken) {
+      initWithToken(storedToken);
+    }
+  }
+
+  loginBtn.addEventListener("click", () => {
+    window.location.href = getOAuth2Url();
+  });
+
+  logoutBtn.addEventListener("click", logout);
+
+</script>
 </body>
 </html>
