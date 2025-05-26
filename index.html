@@ -1,139 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Discord Bot Manager</title>
-<style>
-  /* Dark mode & styling */
-  @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-  body {
-    margin: 0;
-    background-color: #121212;
-    color: #e0e0e0;
-    font-family: 'Inter', sans-serif;
-  }
-  header {
-    display: flex;
-    align-items: center;
-    background-color: #1f1f1f;
-    padding: 10px 20px;
-    gap: 15px;
-  }
-  #profile-pic {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-  }
-  #username {
-    font-weight: 600;
-    font-size: 1.1rem;
-  }
-  #logout-btn {
-    margin-left: auto;
-    background: #e03e3e;
-    border: none;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  #login-btn {
-    background-color: #5865f2;
-    border: none;
-    color: white;
-    padding: 10px 25px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    margin: 50px auto;
-    display: block;
-    transition: background-color 0.2s;
-  }
-  #login-btn:hover {
-    background-color: #4752c4;
-  }
-  main {
-    max-width: 900px;
-    margin: 20px auto 40px;
-    padding: 0 20px;
-  }
-  h1 {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    font-weight: 700;
-  }
-  .server-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .server-card {
-    background-color: #232323;
-    padding: 15px 20px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background-color 0.2s;
-  }
-  .server-card:hover {
-    background-color: #2f2f2f;
-  }
-  .server-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  .server-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    background-color: #444;
-    flex-shrink: 0;
-    image-rendering: pixelated;
-  }
-  .server-name {
-    font-weight: 600;
-    font-size: 1.1rem;
-  }
-  button.action-btn {
-    background-color: #5865f2;
-    border: none;
-    color: white;
-    padding: 8px 18px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s;
-  }
-  button.action-btn:hover {
-    background-color: #4752c4;
-  }
-  .manage-btn {
-    background-color: #43b581;
-  }
-  .manage-btn:hover {
-    background-color: #3a9e6f;
-  }
-  .top-servers {
-    margin-bottom: 25px;
-  }
-  .section-title {
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 12px;
-  }
-  #error-message {
-    color: #e03e3e;
-    text-align: center;
-    margin-top: 30px;
-    font-weight: 700;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discord Bot Manager</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Dark theme and layout */
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #121212;
+      color: #eee;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background-color: #202225;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.7);
+      z-index: 100;
+      gap: 15px;
+    }
+    #profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #username {
+      font-weight: 600;
+      font-size: 1.1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+    #logout-btn {
+      margin-left: auto;
+      background-color: #f04747;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+    #logout-btn:hover {
+      background-color: #c03939;
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 80px auto 40px;
+      padding: 0 20px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      font-weight: 800;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+    #login-btn {
+      display: block;
+      margin: 80px auto;
+      background-color: #5865f2;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1.25rem;
+      padding: 14px 40px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 10px rgb(88 101 242 / 0.6);
+    }
+    #login-btn:hover {
+      background-color: #4752c4;
+      box-shadow: 0 6px 15px rgb(71 82 196 / 0.9);
+    }
+    .section-title {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+    .server-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .server-card {
+      background-color: #2f3136;
+      border-radius: 14px;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 6px rgb(0 0 0 / 0.5);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: default;
+    }
+    .server-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 14px rgb(0 0 0 / 0.75);
+    }
+    .server-info {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+      flex-grow: 1;
+    }
+    .server-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background-color: #36393f;
+      flex-shrink: 0;
+      object-fit: cover;
+      user-select: none;
+      image-rendering: pixelated;
+    }
+    .server-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      user-select: text;
+      min-width: 0;
+    }
+    button.action-btn {
+      background-color: #5865f2;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 8px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s ease;
+    }
+    button.action-btn:hover {
+      background-color: #4752c4;
+    }
+    button.manage-btn {
+      background-color: #43b581;
+    }
+    button.manage-btn:hover {
+      background-color: #3a9e6f;
+    }
+    #error-message {
+      color: #f04747;
+      text-align: center;
+      margin-top: 25px;
+      font-weight: 700;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -149,69 +186,49 @@
 
   <div id="user-info" style="display:none;">
     <div class="section-title">Your Servers with Administrator Permission</div>
-    
-    <div id="servers-container">
-      <div class="top-servers"></div>
-      <div class="other-servers"></div>
-    </div>
+    <div class="server-list" id="servers-container"></div>
   </div>
 
   <div id="error-message"></div>
 </main>
 
 <script>
-  // Your Discord app info
-  const clientId = "1279272540073889856"; // <-- Replace with your app client ID
-  const redirectUri = window.location.origin + window.location.pathname; // Must be registered exactly in Discord dev portal
-  const botClientId = "1279272540073889856"; // <-- Replace with your bot client ID
-
-  // OAuth2 scopes
+  const clientId = "1279272540073889856";
+  const botClientId = "YOUR_BOT_CLIENT_ID_HERE"; // Replace with your bot client ID
+  const redirectUri = window.location.origin + window.location.pathname;
   const scopes = ["identify", "guilds"];
 
-  // Select elements
   const loginBtn = document.getElementById("login-btn");
   const header = document.getElementById("header");
   const profilePic = document.getElementById("profile-pic");
   const usernameDiv = document.getElementById("username");
   const logoutBtn = document.getElementById("logout-btn");
   const userInfoDiv = document.getElementById("user-info");
-  const topServersDiv = document.querySelector(".top-servers");
-  const otherServersDiv = document.querySelector(".other-servers");
+  const serversContainer = document.getElementById("servers-container");
   const errorMessage = document.getElementById("error-message");
 
-  // Helper: Create OAuth2 URL for implicit grant
-  function getOAuthUrl() {
-    return `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${encodeURIComponent(scopes.join(" "))}&prompt=consent`;
-  }
-
-  // Parse access token from URL hash
+  // Parse token from URL hash
   function parseTokenFromHash() {
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
     return params.get("access_token");
   }
 
-  // Save token to localStorage
+  // Save/load/clear token
   function saveToken(token) {
     localStorage.setItem("discord_access_token", token);
   }
-
-  // Load token from localStorage
   function loadToken() {
     return localStorage.getItem("discord_access_token");
   }
-
-  // Clear token from localStorage
   function clearToken() {
     localStorage.removeItem("discord_access_token");
   }
-
-  // Clear URL hash without reloading
   function clearUrlHash() {
     history.replaceState(null, null, " ");
   }
 
-  // Fetch with auth header
+  // Discord API call helper
   async function discordApi(endpoint) {
     const token = loadToken();
     if (!token) throw new Error("No access token");
@@ -233,42 +250,61 @@
   }
 
   // Get user guilds
-  async function fetchGuilds() {
+  async function fetchUserGuilds() {
     return discordApi("/users/@me/guilds");
   }
 
-  // Check if bot is in guild (by comparing botClientId with guild id and fetch member info)
-  // Actually we can check if bot is a member of the guild by calling GET /guilds/{guild.id}/members/{bot.id}
-  // This endpoint requires the bot token (which we do not have here)
-  // So we rely on the user guild permissions and do not know if bot is in guild in pure client side.
-  // Instead, we can have a fixed list or improve backend logic in real app.
-  // For demo, we'll mark no servers as having bot.
-
-  // Helper: build invite URL for bot
-  function buildInviteUrl(guildId) {
-    const permissions = 8; // Administrator
-    return `https://discord.com/oauth2/authorize?client_id=${botClientId}&permissions=${permissions}&scope=bot&guild_id=${guildId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
+  // Get bot guild IDs from your backend API
+  async function fetchBotGuilds() {
+    // IMPORTANT: Replace with your backend API URL where you expose your bot's guild IDs
+    const res = await fetch("/bot/guilds");
+    if (!res.ok) {
+      throw new Error("Failed to fetch bot guilds");
+    }
+    return res.json(); // returns array of guild IDs strings
   }
 
-  // Render servers list with buttons
-  function renderServers(guilds, userId) {
-    topServersDiv.innerHTML = "";
-    otherServersDiv.innerHTML = "";
+  // Build OAuth2 URL for implicit grant
+  function getOAuthUrl() {
+    const scopeStr = scopes.join(" ");
+    const params = new URLSearchParams({
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      response_type: "token",
+      scope: scopeStr,
+      prompt: "consent"
+    });
+    return `https://discord.com/api/oauth2/authorize?${params.toString()}`;
+  }
 
-    // Filter guilds where user has admin permission (bit 0x8)
-    const adminGuilds = guilds.filter(g => {
-      if (!g.permissions) return false;
-      const perms = parseInt(g.permissions, 10);
-      return (perms & 0x8) === 0x8;
+  // Build invite URL to add bot to server
+  function buildInviteUrl(guildId) {
+    return `https://discord.com/oauth2/authorize?client_id=${botClientId}&permissions=8&scope=bot%20applications.commands&guild_id=${guildId}&disable_guild_select=true`;
+  }
+
+  // Render servers list
+  function renderServers(userGuilds, botGuildIds) {
+    serversContainer.innerHTML = "";
+
+    // Filter to only guilds where user has ADMINISTRATOR permission (0x8 bit in permissions)
+    const adminGuilds = userGuilds.filter(guild => {
+      const perms = BigInt(guild.permissions);
+      return (perms & BigInt(0x8)) !== BigInt(0);
     });
 
-    // For demo, bot is not in any server (because we can't detect)
-    // So all show Add button
-    // In real app, you can fetch bots guilds and compare
+    // Sort guilds: bot servers first, then alphabetically
+    adminGuilds.sort((a, b) => {
+      const aHasBot = botGuildIds.includes(a.id);
+      const bHasBot = botGuildIds.includes(b.id);
+      if (aHasBot && !bHasBot) return -1;
+      if (!aHasBot && bHasBot) return 1;
+      return a.name.localeCompare(b.name);
+    });
 
-    // Sort servers: let's say servers with bot would be top - here none
-    // So just alphabetically sort adminGuilds
-    adminGuilds.sort((a, b) => a.name.localeCompare(b.name));
+    if (adminGuilds.length === 0) {
+      serversContainer.innerHTML = "<p>You don't have Administrator permission in any server.</p>";
+      return;
+    }
 
     adminGuilds.forEach(guild => {
       const card = document.createElement("div");
@@ -279,11 +315,9 @@
 
       const icon = document.createElement("img");
       icon.classList.add("server-icon");
-      if (guild.icon) {
-        icon.src = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64`;
-      } else {
-        icon.src = "https://cdn.discordapp.com/embed/avatars/0.png"; // default icon
-      }
+      icon.src = guild.icon
+        ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64`
+        : "https://cdn.discordapp.com/embed/avatars/0.png";
       icon.alt = guild.name + " icon";
 
       const name = document.createElement("div");
@@ -293,61 +327,59 @@
       info.appendChild(icon);
       info.appendChild(name);
 
-      // Add or Manage button
-      // Since we can't check bot presence client-side, show Add button always
-      // You can tweak this with backend
-
       const btn = document.createElement("button");
-      btn.classList.add("action-btn");
-      btn.textContent = "Add Bot";
-      btn.onclick = () => {
-        window.open(buildInviteUrl(guild.id), "_blank");
-      };
+      const hasBot = botGuildIds.includes(guild.id);
+      if (hasBot) {
+        btn.textContent = "Manage";
+        btn.classList.add("action-btn", "manage-btn");
+        btn.onclick = () => {
+          alert(`Manage bot in "${guild.name}" clicked! Implement your manage page.`);
+          // You can open your bot's dashboard or other manage URL here.
+        };
+      } else {
+        btn.textContent = "Add Bot";
+        btn.classList.add("action-btn");
+        btn.onclick = () => {
+          window.open(buildInviteUrl(guild.id), "_blank");
+        };
+      }
 
       card.appendChild(info);
       card.appendChild(btn);
 
-      otherServersDiv.appendChild(card);
+      serversContainer.appendChild(card);
     });
-
-    if(adminGuilds.length === 0) {
-      otherServersDiv.innerHTML = "<p>No servers with Administrator permission found.</p>";
-    }
   }
 
-  // Show error message
+  // Show error
   function showError(msg) {
     errorMessage.textContent = msg;
   }
-
-  // Clear error message
   function clearError() {
     errorMessage.textContent = "";
   }
 
-  // On logout
+  // Logout handler
   logoutBtn.onclick = () => {
     clearToken();
     location.reload();
   };
 
-  // On login button click
+  // Login button handler
   loginBtn.onclick = () => {
     window.location.href = getOAuthUrl();
   };
 
-  // On page load
+  // Main function runs on load
   async function main() {
-    // Check if token is in URL hash
-    const urlToken = parseTokenFromHash();
-    if (urlToken) {
-      saveToken(urlToken);
+    const tokenFromHash = parseTokenFromHash();
+    if (tokenFromHash) {
+      saveToken(tokenFromHash);
       clearUrlHash();
     }
 
     const token = loadToken();
     if (!token) {
-      // Not logged in yet
       loginBtn.style.display = "block";
       header.style.display = "none";
       userInfoDiv.style.display = "none";
@@ -359,19 +391,25 @@
     try {
       clearError();
       const user = await fetchUser();
-
-      // Show header with user info
       profilePic.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
       usernameDiv.textContent = `${user.username}#${user.discriminator}`;
       header.style.display = "flex";
       userInfoDiv.style.display = "block";
 
-      // Fetch guilds and render
-      const guilds = await fetchGuilds();
-      renderServers(guilds, user.id);
+      const userGuilds = await fetchUserGuilds();
 
-    } catch (error) {
-      console.error(error);
+      // Fetch bot guilds from backend API
+      let botGuildIds = [];
+      try {
+        botGuildIds = await fetchBotGuilds();
+      } catch {
+        showError("Could not fetch bot servers. Manage/Add buttons may be incorrect.");
+      }
+
+      renderServers(userGuilds, botGuildIds);
+
+    } catch (err) {
+      console.error(err);
       showError("Login failed or token expired. Please login again.");
       clearToken();
       loginBtn.style.display = "block";
